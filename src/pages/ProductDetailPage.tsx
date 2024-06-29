@@ -2,14 +2,20 @@ import { Button, Card, Image, Rate } from "antd";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useGetProductsByIdQuery } from "../redux/api/productApi";
+import { Product, Review } from "../types/productType";
 
 const ProductDetailPage: React.FC = () => {
+  interface ProductQueryResult {
+    data: Product;
+    isLoading: boolean;
+    error: unknown;
+  }
   const { id } = useParams<{ id: string }>();
   const {
     data: product,
     isLoading,
     error,
-  } = useGetProductsByIdQuery(Number(id));
+  } = useGetProductsByIdQuery<ProductQueryResult>(Number(id));
 
   if (isLoading) return <div className="text-center py-8">Loading...</div>;
   if (error)
@@ -74,7 +80,7 @@ const ProductDetailPage: React.FC = () => {
           </div>
           <div className="mb-4">
             <span className="font-semibold">Tags:</span>
-            {tags.map((tag, index) => (
+            {tags.map((tag: string, index: number) => (
               <span key={index} className="text-blue-500 ml-2">
                 {tag}
               </span>
@@ -103,7 +109,7 @@ const ProductDetailPage: React.FC = () => {
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Reviews</h2>
         {reviews && reviews.length > 0 ? (
-          reviews.map((review, index) => (
+          reviews.map((review: Review, index: number) => (
             <Card key={index} className="mb-4">
               <p className="mb-2">{review.comment}</p>
               <Rate disabled defaultValue={review.rating} />

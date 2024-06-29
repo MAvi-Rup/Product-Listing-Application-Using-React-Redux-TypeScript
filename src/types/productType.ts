@@ -1,7 +1,7 @@
 export interface Product {
   id: number;
   title: string;
-  descrition: string;
+  description: string;
   category: string;
   price: number;
   discountPercentage: number;
@@ -9,20 +9,17 @@ export interface Product {
   stock: number;
   tags: string[];
   brand: string;
-  sku: string;
-  weight: number;
-  dimensions: object;
-  reviews: Review[];
-  images: string[];
   thumbnail: string;
+  returnPolicy: string;
+  shippingInformation: string;
+  availabilityStatus: string;
+  reviews: Review[];
+  minimumOrderQuantity: number;
 }
 
 export interface Review {
   rating: number;
   comment: string;
-  date: string;
-  reviewName: string;
-  reviewEmail: string;
 }
 
 export interface UpdateProductPayload {
@@ -40,4 +37,9 @@ export interface Category {
   slug: string;
   name: string;
   url: string;
+}
+
+export interface ProductsData {
+  products: Product[];
+  total: number;
 }

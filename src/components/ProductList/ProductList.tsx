@@ -1,14 +1,16 @@
-import { Button, Table } from "antd";
+import { Button, Table, Typography, message } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useGetProductsQuery } from "../../redux/api/productApi";
 import { Product } from "../../types/productType";
+
+const { Title } = Typography;
 
 const ProductList: React.FC = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const pageSize = 10;
+
   const { data, isLoading, error } = useGetProductsQuery({
     limit: pageSize,
     skip: (page - 1) * pageSize,
@@ -26,6 +28,7 @@ const ProductList: React.FC = () => {
       dataIndex: "price",
       key: "price",
       className: "text-left text-lg text-gray-600 px-4 py-2",
+      render: (price: number) => `$${price.toFixed(2)}`,
     },
     {
       title: "Category",
@@ -36,7 +39,7 @@ const ProductList: React.FC = () => {
     {
       title: "Action",
       key: "action",
-      render: (_: React.MouseEvent<HTMLButtonElement>, record: Product) => (
+      render: (_: unknown, record: Product) => (
         <Button
           className="text-white bg-blue-500 hover:bg-blue-700 px-3 py-1 rounded"
           onClick={() => navigate(`/product/${record.id}`)}
@@ -47,30 +50,46 @@ const ProductList: React.FC = () => {
     },
   ];
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading products</div>;
+  if (isLoading) {
+    return <div className="text-center py-8">Loading products...</div>;
+  }
+
+  if (error) {
+    message.error("Failed to load products. Please try again later.");
+    return (
+      <div className="text-center py-8 text-red-500">
+        Error loading products
+      </div>
+    );
+  }
+
+  if (!data || !data.products || data.products.length === 0) {
+    return <div className="text-center py-8">No products found.</div>;
+  }
 
   return (
     <div className="mx-4 p-4 bg-gray-100 rounded-lg shadow-lg">
-      <h1 className="text-center text-2xl font-bold text-blue-600 mb-4">
+      <Title level={2} className="text-center text-blue-600 mb-4">
         Products Data
-      </h1>
+      </Title>
       <Table
-        dataSource={data?.products}
+        dataSource={data.products}
         columns={columns}
         rowKey="id"
         pagination={{
           current: page,
           pageSize: pageSize,
-          total: data?.total,
+          total: data.total,
           onChange: (newPage) => setPage(newPage),
+          showSizeChanger: false,
         }}
         components={{
           body: {
-            row: (props) => (
-              <tr className="hover:bg-gray-100 border-b border-gray-200">
-                {props.children}
-              </tr>
+            row: (props: React.HTMLAttributes<HTMLTableRowElement>) => (
+              <tr
+                {...props}
+                className="hover:bg-gray-100 border-b border-gray-200"
+              />
             ),
           },
         }}
