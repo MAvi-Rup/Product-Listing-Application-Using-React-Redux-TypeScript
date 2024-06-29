@@ -35,3 +35,9 @@ export interface UpdateProductPayload {
   brand?: string;
   rating?: number;
 }
+
+export interface Category {
+  slug: string;
+  name: string;
+  url: string;
+}
