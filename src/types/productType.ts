@@ -24,3 +24,14 @@ export interface Review {
   reviewName: string;
   reviewEmail: string;
 }
+
+export interface UpdateProductPayload {
+  title?: string;
+  description?: string;
+  price?: number;
+  discountPercentage?: number;
+  stock?: number;
+  tags?: string[];
+  brand?: string;
+  rating?: number;
+}

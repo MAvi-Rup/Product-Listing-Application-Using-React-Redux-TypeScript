@@ -29,7 +29,14 @@ const ProductDetailPage: React.FC = () => {
     brand,
     price,
     rating,
+    discountPercentage,
+    stock,
+    tags,
+    returnPolicy,
+    shippingInformation,
+    availabilityStatus,
     reviews,
+    minimumOrderQuantity,
   } = product;
 
   return (
@@ -55,8 +62,38 @@ const ProductDetailPage: React.FC = () => {
             <span className="font-semibold">Price:</span> ${price}
           </div>
           <div className="mb-4">
+            <span className="font-semibold">Discount:</span>{" "}
+            {discountPercentage}%
+          </div>
+          <div className="mb-4">
+            <span className="font-semibold">Stock:</span> {stock}
+          </div>
+          <div className="mb-4">
+            <span className="font-semibold">Minimum Order Quantity:</span>{" "}
+            {minimumOrderQuantity}
+          </div>
+          <div className="mb-4">
+            <span className="font-semibold">Tags:</span>
+            {tags.map((tag, index) => (
+              <span key={index} className="text-blue-500 ml-2">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className="mb-4">
             <span className="font-semibold">Rating:</span>
             <Rate disabled defaultValue={rating} />
+          </div>
+          <div className="mb-4">
+            <span className="font-semibold">Return Policy:</span> {returnPolicy}
+          </div>
+          <div className="mb-4">
+            <span className="font-semibold">Shipping Information:</span>{" "}
+            {shippingInformation}
+          </div>
+          <div className="mb-4">
+            <span className="font-semibold">Availability:</span>{" "}
+            {availabilityStatus}
           </div>
           <Button type="primary" className="mt-4">
             <Link to={`/product/${id}/edit`}>Edit Product</Link>

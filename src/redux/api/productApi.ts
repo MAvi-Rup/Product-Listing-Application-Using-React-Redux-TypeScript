@@ -11,6 +11,19 @@ export const productApi = createApi({
     getProductsById: builder.query<number>({
       query: (id) => `products/${id}`,
     }),
+    getProductcategory: builder.query({
+      query: () => `products/categories`,
+    }),
+    updateProduct: builder.mutation<
+      Product,
+      { id: number; payload: UpdateProductPayload }
+    >({
+      query: ({ id, payload }) => ({
+        url: `products/${id}`,
+        method: "PATCH",
+        body: payload,
+      }),
+    }),
   }),
 });
 
