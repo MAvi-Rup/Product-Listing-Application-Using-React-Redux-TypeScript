@@ -1,6 +1,7 @@
 import { Button, Card, Image, Rate } from "antd";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import Loader from "../components/shared/Loader";
 import { useGetProductsByIdQuery } from "../redux/api/productApi";
 import { Product, Review } from "../types/productType";
 
@@ -17,7 +18,7 @@ const ProductDetailPage: React.FC = () => {
     error,
   } = useGetProductsByIdQuery<ProductQueryResult>(Number(id));
 
-  if (isLoading) return <div className="text-center py-8">Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error)
     return (
       <div className="text-center py-8 text-red-500">

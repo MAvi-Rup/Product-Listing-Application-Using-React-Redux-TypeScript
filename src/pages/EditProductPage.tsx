@@ -1,7 +1,8 @@
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, InputNumber, Select, Space } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Loader from "../components/shared/Loader";
 import {
   useGetProductcategoryQuery,
   useGetProductsByIdQuery,
@@ -20,7 +21,7 @@ const EditProductPage: React.FC = () => {
     useGetProductcategoryQuery();
   const [updateProduct] = useUpdateProductMutation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (product) {
       form.setFieldsValue(product);
     }
@@ -37,7 +38,7 @@ const EditProductPage: React.FC = () => {
   };
 
   if (isProductLoading || isCategoriesLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (

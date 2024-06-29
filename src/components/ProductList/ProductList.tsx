@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetProductsQuery } from "../../redux/api/productApi";
 import { Product } from "../../types/productType";
+import Loader from "../shared/Loader";
 
 const { Title } = Typography;
 
@@ -51,7 +52,7 @@ const ProductList: React.FC = () => {
   ];
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading products...</div>;
+    return <Loader />;
   }
 
   if (error) {
@@ -68,7 +69,7 @@ const ProductList: React.FC = () => {
   }
 
   return (
-    <div className="mx-4 p-4 bg-gray-100 rounded-lg shadow-lg">
+    <div className="container mx-auto p-4 bg-gray-100 rounded-lg shadow-lg">
       <Title level={2} className="text-center text-blue-600 mb-4">
         Products Data
       </Title>
